@@ -40,13 +40,8 @@ class App extends Component {
         }
       }
     }
-
     return [a, b];
   }
-
-  _renderFlatListItem = (item) => (
-    <span>{item}</span>
-  );
 
   _confirmFun = (myNum) => {
     if(this.state.isPlay) {
@@ -81,6 +76,33 @@ class App extends Component {
     }
   }
 
+  _renderResults = () => {
+    let myrowViewStyle = {
+      ...styles.rowView,
+      borderBottomWidth: '1px',
+      borderBottomColor: 'green',
+      borderBottomStyle: 'dotted'
+    }
+    let jsx = [];
+    this.state.flatListSource.forEach(function(element){
+      jsx.push(
+        <div style={myrowViewStyle}>
+          <div style={{flex: 1}}>{element.idx}</div>
+          <div style={{flex: 1}}>{element.result}</div>
+          <div style={{flex: 1}}>{element.myNum}</div>
+        </div>
+      );
+    });
+    return (<div style={styles.resultsDiv}>
+      <div style={myrowViewStyle}>
+        <div style={{flex: 1}}>次數</div>
+        <div style={{flex: 1}}>結果</div>
+        <div style={{flex: 1}}>猜的數字</div>
+      </div>
+      {jsx}
+    </div>);
+  }
+
   render() {
     return (
       <div style={styles.container}>
@@ -90,8 +112,7 @@ class App extends Component {
               <span style={styles.numberText}>新遊戲</span>
             </div>
           </a>
-          <div style={{width: 30}}></div>
-          <a onClick={()=>this.onPressAbandon()}>
+          <a onClick={()=>this.onPressAbandon()} style={{'margin-left': '30px', display: this.state.isPlay ? 'flex' : 'none'}}>
             <div style={styles.button}>
               <span style={styles.numberText}>放棄</span>
             </div>
@@ -102,8 +123,10 @@ class App extends Component {
         <GuessNumbers ref={obj => { this.guessNumbers = obj; }}></GuessNumbers>
         <div style={styles.hr}></div>
         <div style={styles.rowView}>
-          <Keyboard ref={obj => { this.keyboard = obj; }} confirmFun={this._confirmFun}></Keyboard>
-
+          <div style={{flex: 1}}>
+            <Keyboard ref={obj => { this.keyboard = obj; }} confirmFun={this._confirmFun}></Keyboard>
+          </div>
+          {this._renderResults()}
         </div>
       </div>
     );
@@ -111,17 +134,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// <FlatList
-// style={{backgroundColor: 'pink'}}
-// data={this.state.flatListSource}
-// keyExtractor={(x, i) => i}
-// renderItem={({ item }) =>
-//   <View style={{flexDirection:'row'}}>
-//     <Text style={{flex:1}}>{item.idx}</Text>
-//     <Text style={{flex:2}}>{item.result}</Text>
-//     <Text style={{flex:2}}>{item.myNum}</Text>
-//   </View>
-// }
-// />

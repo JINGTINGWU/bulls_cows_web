@@ -24,6 +24,7 @@ export default {
     marginRight: 10
   },
   rowView: {
+    display: 'flex',
     flexDirection: 'row',
   },
   button: {
@@ -37,5 +38,12 @@ export default {
     marginRight: '1px',
     borderRadius: '25px',
     lineHeight: '50px',
-  }
+  },
+  resultsDiv: {
+    flex: 1, 
+    width: '200px',
+    marginLeft: '20px'
+  },
+
+  
 }
